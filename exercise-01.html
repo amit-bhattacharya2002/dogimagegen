@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Fetch API Exercise Lab</title>
+</head>
+
+<body>
+  <div id="container">
+    <h1>The Fetch API Exercises</h1>
+    <p>Open the web inspector console to test.</p>
+    <button id="load-photo">Load Photo</button>
+  </div>
+</body>
+<script>
+  // Place your code below this line
+  const url = 'https://dog.ceo/api/breeds/image/random';
+  // fetch(url).then(res => res.json()).then(data => {
+  //   console.log(data)
+  //   console.log(`<img src=${data.message} alt="Random Image Of A Dog"/>`);
+  //   const img = document.createElement('img');
+  //   img.src = data.message;
+  //   document.getElementById('container').insertAdjacentElement('beforeend', img)
+  // }).catch(error => {
+  //   console.log(error);
+  // });
+
+  function getRandomDogPhoto() {
+    return fetch(url).then(res => res.json());
+  }
+
+  async function init() {
+    loadSpinner();
+
+    var data = await getRandomDogPhoto();
+    removeSpinner();
+
+    console.log(data);
+    renderDogPhoto(data.message);
+  }
+  // getRandomDogPhoto()
+
+
+
+
+  function renderDogPhoto(url) {
+    document.getElementById('load-photo').insertAdjacentHTML('beforebegin', `<img src="${url}" alt="Random Image Of A Dog"/><br>`);
+  }
+
+  function loadSpinner() {
+    button.disabled = true;
+    const spinner = `../assets/loader.svg`;
+    const img = `<img src="${spinner}" id="spinner" alt="Loading spinner image" />`;
+    button.insertAdjacentHTML('afterbegin', img);
+    document.querySelector(`#container`).insertAdjacentHTML(`beforeend`, img);
+  }
+
+  function removeSpinner() {
+    const spinner = document.querySelector(`img#spinner`);
+    spinner.parentElement.removeChild(spinner);
+
+  }
+
+
+  var button = document.getElementById('load-photo');
+  button.addEventListener('click', () => {
+    init();
+    removeSpinner();
+  });
+
+  // init();
+</script>
+
+</html>
